@@ -18,7 +18,6 @@ public class Repository {
      * comment above them describing what that variable represents and how that
      * variable is used. We've provided two examples for you.
      */
-    public static Commit head;
     public static Commit master;
 
     /** The current working directory. */
@@ -169,15 +168,6 @@ public class Repository {
         }
     }
 
-    public static void newLog(Log input) {
-        File log = Utils.join(GITLET_DIR, "newLog");
-        if (log.exists()) {
-            String temp = readContentsAsString(log);
-            writeContents(log, input.toString()+temp);
-        } else {
-            writeContents(log, input.toString());
-        }
-    }
     public static void log(Log input) {
         File log = Utils.join(GITLET_DIR, "log");
         if (log.exists()) {
@@ -189,10 +179,6 @@ public class Repository {
     }
     public static void logRead() {
         File log = Utils.join(GITLET_DIR, "log");
-        System.out.println(readContentsAsString(log));
-    }
-    public static void newLogRead() {
-        File log = Utils.join(GITLET_DIR, "newLog");
         System.out.println(readContentsAsString(log));
     }
     public static void commitLog(){
@@ -292,13 +278,11 @@ public class Repository {
         Commit headCommit = getHeadCommit();
         for (Blob b : headCommit.getContent()) {
             File headCommitCWD = Utils.join(Repository.CWD, b.getName());
-            //error(headCommitCWD);//TODO
-
             headCommitCWD.delete();
         }
         for (Blob b : blobContent) {
             File blobFile = Utils.join(Repository.CWD, b.getName());
-            error(blobFile);//TODO
+            error(blobFile);
             Utils.writeContents(blobFile, b.getContent());
         }
         if (Repository.STAGE.listFiles().length>0){
@@ -346,7 +330,7 @@ public class Repository {
         }
         for (Blob b : blobContent) {
             File blobFile = Utils.join(Repository.CWD, b.getName());
-            error(blobFile);//TODO
+            error(blobFile);
             Utils.writeContents(blobFile, b.getContent());
         }
         File f = Repository.STAGE;
@@ -390,15 +374,5 @@ public class Repository {
                 }
             }
         }
-    public static boolean trackedHead(File f){
-        Commit curr =getHeadCommit();
-        LinkedList<Blob> blob= curr.getContent();
-        for (Blob b: blob){
-            if (b.getContent().equals(Utils.readContentsAsString(f))){
-                return true;
-            }
-        }
-        return false;
-    }
 }
 
