@@ -78,11 +78,6 @@ When a commit is made, it will create an object of class Commit with its corresp
     7. The staging area should be somewhere in `.gitlet`.
     8. do not stage if identical and remove it from the staging area if it is already there
     9. file no longer be staged for removal if it was at the time of the command.
-3. <code>
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: undefined internal link (link text: "commit: java gitlet.Main commit [message]"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-[commit: java gitlet.Main commit [message]](#heading=h.thkn9s5gaey6)</code>
 10. Saves a snapshot in the current commit + staging area
 11. keep versions of files exactly as they are, and not update them. A commit will only update the contents of files it is tracking that have been staged for addition at the time of commit, in which case the commit will now include the version of the file that was staged instead of the version it got from its parent.
 12. A commit will save and start tracking any files that were staged for addition but weren’t tracked by its parent. files tracked in the current commit may be untracked in the new commit  w/  <code>rm</code> command
@@ -91,13 +86,8 @@ When a commit is made, it will create an object of class Commit with its corresp
 5. <code>log:</code> <code>java gitlet.Main log</code>
     14. Starting from the current head commit, display each commit along the commit tree until the initial commit, following the first parent commit links, ignoring any second parents found in merge commits (extra credit).
     15. set of commit nodes = commit’s <em>history</em>. For every node in this history, display commit id, time created, and the
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: undefined internal link (link text: "commit"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-[commit](#heading=h.thkn9s5gaey6) message.
 6. <code>merge:</code> <code>java gitlet.Main merge[branch name]</code>
     16. <code>merge files from given branch to current branch</code>
-    17.
 
 
 #### <strong>Utils</strong>

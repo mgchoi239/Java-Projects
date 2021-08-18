@@ -9,6 +9,7 @@ import static gitlet.Utils.readContentsAsString;
  */
 public class Main {
 
+    /** Receives the input String and executes appropriate task */
     public static void main(String[] args) {
         if (args.length==0) {
             System.out.println("Please enter a command.");

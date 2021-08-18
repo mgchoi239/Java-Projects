@@ -1,52 +1,34 @@
 package gitlet;
 
-// TODO: any imports you need here
-
 import java.io.File;
 import java.io.Serializable;
-import java.util.Date; // TODO: You'll likely use this in this class
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import static gitlet.Utils.*;
 
-
-/** Represents a gitlet commit object.
- *  TODO: It's a good idea to give a description here of what else this Class
- *  does at a high level.
- *
- *  @author Min Goo Choi&Kaifeng Liu
- */
 public class Commit implements Serializable {
-    /**
-     * TODO: add instance variables here.
-     *
-     * List all instance variables of the Commit class here with a useful
-     * comment above them describing what that variable represents and how that
-     * variable is used. We've provided one example for `message`.
-     */
 
     /** The message of this Commit. */
     static final File COMMIT_FOLDER = Utils.join(Repository.GITLET_DIR, "commits");
-
     private String message;
     private Date timestamp;
     private String parent;
     private LinkedList<Blob> content;
-    private LinkedList<File> blobList;
 
+    /** Commit Object that bundles Blob objects and are serialized into Files in .gitlet directory */
     public Commit(String message, String parent){
         this.message=message;
         this.timestamp = new Date();
         if (parent==null){
-            content = new LinkedList<Blob>();
+            content = new LinkedList<>();
             this.parent=null;
             this.timestamp = new Date(0);
         }else{
             LinkedList<Blob> saved = fromFile(parent).getContent();
             File f = Repository.STAGE;
             File[] files = f.listFiles();
-            //staged for addition
+            /** Staged for Addition */
             for (int j=0; j < saved.size(); j++){
                 File[] filesL = f.listFiles();
                 for (int h=0; h<filesL.length; h++){
@@ -67,7 +49,7 @@ public class Commit implements Serializable {
             }
             File removed= Repository.rmSTAGE;
             File[] listRemove=removed.listFiles();
-            //staged for removal
+            /** Staged for Removal */
             for (File rm: listRemove) {
                 for (Iterator<Blob> iter = saved.iterator(); iter.hasNext(); ) {
                     Blob data = iter.next();
@@ -92,19 +74,18 @@ public class Commit implements Serializable {
         Commit save = readObject(commit, Commit.class);
         return save;
     }
-
     public void saveCommit(String ID){
         File commit = Utils.join(COMMIT_FOLDER, ID);
         Utils.writeObject(commit, this);
     }
+
+    /** Getter Methods */
     public Date getDate(){
         return this.timestamp;
     }
-
     public LinkedList<Blob> getContent() {
         return this.content;
     }
-
     public String getParent() {
         return parent;
     }
