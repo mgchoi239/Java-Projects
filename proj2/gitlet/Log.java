@@ -14,7 +14,6 @@ public class Log implements Serializable {
         this.timeStamp = timeStamp;
         this.message = message;
     }
-
     @Override
     public String toString() {
         SimpleDateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss yyyy Z");

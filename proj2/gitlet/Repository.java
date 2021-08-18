@@ -1,22 +1,11 @@
 package gitlet;
 
 import java.io.File;
-import java.net.http.HttpHeaders;
 import java.util.LinkedList;
-
 import static gitlet.Utils.*;
 
-/** Represents a gitlet repository.
- *  does at a high level.
- *
- *  @author Min Goo Choi&Kaifeng Liu
- */
 public class Repository {
-    /**
-     * List all instance variables of the Repository class here with a useful
-     * comment above them describing what that variable represents and how that
-     * variable is used. We've provided two examples for you.
-     */
+    /** Relevant functions that involves the Repository directory*/
 
     /** The current working directory. */
     public static final File CWD = new File(System.getProperty("user.dir"));
@@ -220,7 +209,6 @@ public class Repository {
                 }
             }
         }
-
         if (!c.exists()){
             System.out.println("No commit with that id exists.");
             System.exit(0);
@@ -265,11 +253,12 @@ public class Repository {
             System.exit(0);
         }
 
+        /** Reading the Branch and moving reconstructing its contents */
         String Sha1 = Utils.readContentsAsString(branchN);
         Commit store = Commit.fromFile(Sha1);
         LinkedList<Blob> blobContent = store.getContent();
-
         Commit headCommit = getHeadCommit();
+
         for (Blob b : headCommit.getContent()) {
             File headCommitCWD = Utils.join(Repository.CWD, b.getName());
             headCommitCWD.delete();
