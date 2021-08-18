@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import static gitlet.Utils.*;
 
 /** Represents a gitlet repository.
- *  TODO: It's a good idea to give a description here of what else this Class
  *  does at a high level.
  *
  *  @author Min Goo Choi&Kaifeng Liu
@@ -18,7 +17,6 @@ public class Repository {
      * comment above them describing what that variable represents and how that
      * variable is used. We've provided two examples for you.
      */
-    public static Commit master;
 
     /** The current working directory. */
     public static final File CWD = new File(System.getProperty("user.dir"));
@@ -28,6 +26,7 @@ public class Repository {
     public static final File rmSTAGE = join(GITLET_DIR, "removing");
 
     public static void status() {
+        /** Printing Status of Files in String */
         System.out.println("=== Branches ===");
         File[] branchFile = BRANCHES.listFiles();
         String currentBranch=readContentsAsString(Utils.join(BRANCHES, "branch"));
@@ -61,10 +60,8 @@ public class Repository {
         }
         System.out.println();
         System.out.println("=== Modifications Not Staged For Commit ===\n");
-
         System.out.println("=== Untracked Files ===\n");
     }
-
     public static void init(){
         if (GITLET_DIR.exists()) {
             System.out.println("A Gitlet version-control system already exists in the current directory.");
@@ -102,8 +99,9 @@ public class Repository {
         log(logger);
     }
     public static void add(String input) {
+        /** Adding File to the Staging Area */
         File original = Utils.join(CWD, input);
-        File rem=Utils.join(Repository.rmSTAGE, input);
+        File rem = Utils.join(Repository.rmSTAGE, input);
         if (rem.exists()){
             rem.delete();
             return;
@@ -112,12 +110,10 @@ public class Repository {
             System.out.println("File does not exist.");
             System.exit(0);
         }
-
         Blob.stageBlob(new Blob(original, input));
-
-
     }
     public static void commit(String msg) {
+        /** Committing Files that are in the Staging Area */
         if (STAGE.listFiles().length == 0&&rmSTAGE.listFiles().length==0) {
             System.out.println("No changes added to the commit.");
             System.exit(0);
@@ -138,8 +134,8 @@ public class Repository {
         Log logger = new Log (saveStr, save.getDate(), msg);
         log(logger);
     }
-
     public static void remove(String deleteFileStr) {
+        /** Removing the File from the Staging Area */
         Boolean tracked=false;
         File stage= Repository.STAGE;
         for (File file: stage.listFiles()){
@@ -167,7 +163,6 @@ public class Repository {
             System.exit(0);
         }
     }
-
     public static void log(Log input) {
         File log = Utils.join(GITLET_DIR, "log");
         if (log.exists()) {
@@ -213,7 +208,6 @@ public class Repository {
         if (!flag)
             System.out.println("Found no commit with that message.");
     }
-
     public static void checkout(String ID, File CWD) {
         File c = Utils.join(Commit.COMMIT_FOLDER, ID);
         if (ID.length()<40){
@@ -245,9 +239,9 @@ public class Repository {
             System.out.println("File does not exist in that commit.");
         }
     }
-
     public static void createBranch(String name){
-        File  currentBranch= Utils.join(BRANCHES, "branch");
+        /** Creating a new Branch */
+        File currentBranch= Utils.join(BRANCHES, "branch");
         File latestCommit= Utils.join(BRANCHES, Utils.readContentsAsString(currentBranch));
         String commitID = Utils.readContentsAsString(latestCommit);
         File existBranch = Utils.join(BRANCHES, name);
@@ -258,8 +252,8 @@ public class Repository {
         File masterBranch = Utils.join(BRANCHES, name);
         Utils.writeContents(masterBranch, commitID);
     }
-
     public static void checkoutBranch(String branchName) {
+        /** Checking out to BranchName */
         File branch = Utils.join(BRANCHES, "branch");
         File branchN = Utils.join(BRANCHES, branchName);
         if (!branchN.exists()) {
@@ -296,13 +290,13 @@ public class Repository {
         Utils.writeContents(branch, branchName);
         Utils.writeContents(Utils.join(Repository.GITLET_DIR, "head"), Sha1);
     }
-
     public static Commit getHeadCommit(){
         File headPointer = Utils.join(Repository.GITLET_DIR, "head");
         String headStr = readContentsAsString(headPointer);
         return Commit.fromFile(headStr);
     }
     public static void rmBranch(String branchName){
+        /** Removing a branch named BranchName */
         File headPointer = Utils.join(Repository.BRANCHES, "branch");
         if (Utils.readContentsAsString(headPointer).equals(branchName)){
             System.out.println("Cannot remove the current branch.");
@@ -322,8 +316,8 @@ public class Repository {
         String Sha1 = ID;
         Commit store = Commit.fromFile(Sha1);
         LinkedList<Blob> blobContent = store.getContent();
-
         Commit headCommit = getHeadCommit();
+
         for (Blob b : headCommit.getContent()) {
             File headCommitCWD = Utils.join(Repository.CWD, b.getName());
             headCommitCWD.delete();
@@ -338,7 +332,6 @@ public class Repository {
         for (File fi : files) {
             fi.delete();
         }
-        File r = Repository.rmSTAGE;
         File[] rmFiles = f.listFiles();
         for (File fi : rmFiles) {
             fi.delete();
@@ -350,29 +343,31 @@ public class Repository {
         Utils.writeContents(currBranch, ID);
         Utils.writeContents(Utils.join(Repository.GITLET_DIR, "head"), Sha1);
     }
-        public static boolean tracked(File f){
-            File staging = Repository.STAGE;
-            for (File a: staging.listFiles()){
-                if (Utils.readContents(f).equals(Utils.readContents(a))){
-                    return true;
-                }
-            }
-            Commit curr =getHeadCommit();
-            LinkedList<Blob> blob= curr.getContent();
-            for (Blob b: blob){
-                if (b.getContent().equals(Utils.readContentsAsString(f))){
-                    return true;
-                }
-            }
-            return false;
-        }
-        public static void error(File file){
-            if (file.isFile()){
-                if(!tracked(file)){
-                    System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
-                    System.exit(0);
-                }
+    public static boolean tracked(File f){
+        /** Checking for an untracked File */
+        File staging = Repository.STAGE;
+        for (File a: staging.listFiles()){
+            if (Utils.readContents(f).equals(Utils.readContents(a))){
+                return true;
             }
         }
+        Commit curr =getHeadCommit();
+        LinkedList<Blob> blob= curr.getContent();
+        for (Blob b: blob){
+            if (b.getContent().equals(Utils.readContentsAsString(f))){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static void error(File file){
+        /** Printing Error if tracked */
+        if (file.isFile()){
+            if(!tracked(file)){
+                System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
+                System.exit(0);
+            }
+        }
+    }
 }
 
