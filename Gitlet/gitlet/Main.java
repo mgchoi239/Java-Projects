@@ -2,7 +2,7 @@ package gitlet;
 
 import java.io.File;
 
-import static gitlet.Utils.readContentsAsString;
+import static gitlet.Utils.*;
 
 /** Driver class for Gitlet, a subset of the Git version-control system.
  *  @author Min Goo Choi&Kaifeng Liu
