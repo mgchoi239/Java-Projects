@@ -4,24 +4,24 @@
 
 ```
 Gitlet [proj2]                  
-└── .gitlet                 <==== contains all the cache of the project
-    ├── blobs               <==== saves all serialized blob objects
+└── .gitlet                 <=== contains all the cache of the project
+    ├── blobs                   <=== saves all serialized blob objects
     |   ├── blob_SHA_1                
     |   ├── blob_SHA_2
     |   ├── ...
     |   └── blob_SHA_N              
-    ├── branches            <==== saves all branches as textfile name and their respective commit SHA1 as content
+    ├── branches                <=== saves all branches as textfile name and their respective commit SHA1 as content
     |   ├── branch.txt               
     |   └── master.txt
-    ├── commits             <==== saves commits as serialized SHA1 format
+    ├── commits                 <=== saves commits as serialized SHA1 format
     |   ├── commit_SHA_1                
     |   ├── commit_SHA_2
     |   ├── ...
     |   └── commit_SHA_N
-    ├── removing            <==== files in the current working directory that are to be deleted once committed
-    ├── staging             <==== files in the current working directory that were added for commit
-    ├── head.txt            <==== textfile that holds the most recent commit of the current branch
-    └── log.txt             <==== textfile with a list of all the commits that were made
+    ├── removing                <=== files in the current working directory that are to be deleted once committed
+    ├── staging                 <=== files in the current working directory that were added for commit
+    ├── head.txt                <=== textfile that holds the most recent commit of the current branch
+    └── log.txt                 <=== textfile with a list of all the commits that were made
 ```
 ## **Classes**
 
