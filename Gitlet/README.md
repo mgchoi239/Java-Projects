@@ -1,4 +1,4 @@
-# Gitlet Design Document
+# Gitlet Design Documentation
 
 ### Directory Structure:
 
