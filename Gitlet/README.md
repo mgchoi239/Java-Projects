@@ -1,8 +1,3 @@
-
-
-
-
-
 # Gitlet Design Document
 
 ### Directory Structure:
